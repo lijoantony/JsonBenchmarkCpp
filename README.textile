@@ -13,14 +13,13 @@ h2. Building
 
 # Install "git":http://git-scm.com
 # @git clone git://github.com/lijoantony/JsonBenchmarkCpp.git@
-# Edit main.cpp to suit your requirements
-# Either edit Makefile for needs and use make for building the executable 
-  or use your favourite build system to compile and link main.cpp with required libs. 
+# Edit main.cpp to suit your needs
+# Either edit the Makefile as you like and use make to build the executable 
+  or use your favourite build system to compile and link main.cpp with the libs. 
 
 h2. Results Summary
 
-Frameworks ranked in the order libjson, json_spirit and cajun
-for both parsing and writing operations
+Frameworks ranked in the order "libjson":http://sourceforge.net/projects/libjson, "json_spirit":http://www.codeproject.com/KB/recipes/JSON_Spirit.aspx and "Cajun":http://sourceforge.net/projects/cajun-jsonapi for both parsing and writing speeds
 
 Eg:
 $./JsonBenchmarkCpp > results.dat
@@ -31,16 +30,16 @@ json_spirit              8854                     499
 libjson                  19                       3    
 
 Here the numbers shows time taken by each lib for the particular operation in micro seconds.
-libjson is a clear winner.
-Sample results and corresponding grapghs can be found in results directory.
+libjson is a clear winner among the three.
+Sample results and corresponding grapghs are available in results directory.
 For accurate results, replace the content of file data.json with your json data and run the executable.
 
 Use the gnuplot script results/graph.p to draw bar diagram out of this data
-$ ./graph.p > graph.jpg
+$ ./graph.p > graph.png
 
 h3. Thanks
 
 Thanks to the library authors for their effort and time.
 You saved me from reinventing the same wheel again!
 
-Special thanks to Jonathan Wallace, for actively maintaining libjson and helping me with my queries in no time.
+Special thanks to Jonathan Wallace, for actively developing libjson and helping me with my queries in no time.
