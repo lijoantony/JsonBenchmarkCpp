@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/json_map_demo.dir/json_map_demo.cpp.o  -o json_map_demo -rdynamic ../json_spirit/libjson_spirit.a 
