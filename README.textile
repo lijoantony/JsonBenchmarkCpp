@@ -9,7 +9,7 @@ Currently supports following libs,
 # "json_spirit":http://www.codeproject.com/KB/recipes/JSON_Spirit.aspx
 # "libjson":http://sourceforge.net/projects/libjson
 
-See my "blog post":http://lijoblogs.blogspot.com/2011/11/comparison-and-benchmark-of-c-json.html" for details.
+See my "blog post":http://lijoblogs.blogspot.com/2011/11/comparison-and-benchmark-of-c-json.html for details.
 
 h2. Building
 
