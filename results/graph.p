@@ -6,12 +6,12 @@ set terminal png
 #set xlabel "time"
 
 set ylabel "micro second"
-set yrange[0:2000]
+set yrange[0:10000]
 #set yrange [0:31]
 
 set title "cpp json performance"
 #set key reverse Left outside
-#set grid
+set grid
 
 #set style data linespoints
 

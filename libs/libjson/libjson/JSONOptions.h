@@ -61,7 +61,7 @@
  *  this would be a client application communicating with a server if the server
  *  returns things like last modified date and other things that you don't use.
  */
-//#define JSON_PREPARSE
+#define JSON_PREPARSE
 
 
 /*
