@@ -6,17 +6,18 @@
 # see accompanying file LICENSE.txt
 
 CC=g++
-CFLAGS=-c -Wall
+CFLAGS=-c -Wall -O2
 LDFLAGS=libs/libjson/libjson/libjson.a -lrt libs/json_spirit/json_spirit_v4.05/build/json_spirit/libjson_spirit.a
 OBJECTS=$(SOURCES:.cpp=.o)
 INCLUDE=\
 		-Ilibs/cajun/cajun\
 		-Ilibs/json_spirit/json_spirit_v4.05/json_spirit\
 		-Ilibs/libjson/libjson\
+		-Ilibs/json-parser
 
 EXECUTABLE=JsonBenchmarkCpp
 
-SOURCES=main.cpp
+SOURCES=main.cpp libs/json-parser/json.c
 
 all: cajun json_spirit libjson $(SOURCES) $(EXECUTABLE)
 		
@@ -35,7 +36,6 @@ libjson:
 		unzip libs/libjson/libjson_7.4.0.zip -d libs/libjson;\
 		make -w -Clibs/libjson/libjson;\
 	fi
-
 
 $(EXECUTABLE): $(OBJECTS) 
 		$(CC) $(OBJECTS) $(LDFLAGS) -o $@

@@ -7,6 +7,7 @@
  * 1. Cajun
  * 2. json_spirit
  * 3. libjson
+ * 4. json-parser
  *
  * Copyright Lijo Antony 2011
  * Distributed under Apache License, Version 2.0
@@ -29,6 +30,11 @@
 
 //libjson headers
 #include <libjson.h>
+
+//json-parser headers
+#define json_string __json_string
+#include <json.h>
+#undef json_string
 
 
 /*
@@ -148,6 +154,28 @@ void libjsonBenchmark(std::string jsonString)
     std::cout << std::endl;
 }
 
+/*
+ * @brief function for json-parser benchmark
+ *
+ * @param jsonString test data as a string
+ * @return none
+ */
+void jsonparserBenchmark(std::string jsonString)
+{
+    timespec time1, time2; 
+    json_value * value;
+
+    std::cout << std::setw(25) << "json_parser";
+
+    //Parsing the string
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+    value = json_parse(jsonString.c_str());
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+
+    printTimeDiff(time1, time2);
+
+    std::cout << std::endl;
+}
 int main()
 {
 
@@ -179,6 +207,7 @@ int main()
     cajunBenchmark(buff);
     jsonspiritBenchmark(buff);
     libjsonBenchmark(buff);
+    jsonparserBenchmark(buff);
 
     return 0;
 }
