@@ -6,7 +6,7 @@
 # see accompanying file LICENSE.txt
 
 CC=g++
-CFLAGS=-c -Wall
+CFLAGS=-c -Wall -O2
 LDFLAGS=libs/libjson/libjson/libjson.a -lrt libs/json_spirit/json_spirit_v4.05/build/json_spirit/libjson_spirit.a
 OBJECTS=$(SOURCES:.cpp=.o)
 INCLUDE=\
