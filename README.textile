@@ -25,20 +25,22 @@ h2. Results Summary
 Frameworks ranked in the order "libjson":http://sourceforge.net/projects/libjson, "json_spirit":http://www.codeproject.com/KB/recipes/JSON_Spirit.aspx and "Cajun":http://sourceforge.net/projects/cajun-jsonapi for both parsing and writing speeds
 
 Eg:
-$./JsonBenchmarkCpp > results.dat
+
+bc. $./JsonBenchmarkCpp > results.dat
 $ cat results.dat
 #library                 parsing                  writing                  
 cajun                    1660                     114                      
 json_spirit              8854                     499                      
 libjson                  19                       3    
 
-Here the numbers shows time taken by each lib for the particular operation in micro seconds.
+Here the numbers shows time taken by each lib for the particular operation in microseconds.
 libjson is a clear winner among the three.
-Sample results and corresponding grapghs are available in results directory.
-For accurate results, replace the content of file data.json with your json data and run the executable.
+Sample results and corresponding graphs are available in results directory.
+For accurate results, replace the content of file data.json with your JSON data and run the executable.
 
-Use the gnuplot script results/graph.p to draw bar diagram out of this data
-$ ./graph.p > graph.png
+Use the gnuplot script results/graph.p to draw bar diagram out of this data:
+
+bc. $ ./graph.p > graph.png
 
 h3. Thanks
 
