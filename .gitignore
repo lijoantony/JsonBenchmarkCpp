@@ -1,0 +1,3 @@
+*.o
+.*.swp
+libs/libjson/libjson/libjson.a
