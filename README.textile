@@ -10,7 +10,7 @@ Currently supports following libs,
 # "libjson":http://sourceforge.net/projects/libjson
 # "json-parser":https://github.com/udp/json-parser
 
-See my "blog post":http://lijoblogs.blogspot.com/2011/11/comparison-and-benchmark-of-c-json.html for details.
+See my "blog post":http://www.lijoantony.com/?p=5 for details.
 
 h2. Building
 
@@ -47,4 +47,4 @@ h3. Thanks
 Thanks to the library authors for their effort and time.
 You saved me from reinventing the same wheel again!
 
-Special thanks to Jonathan Wallace, for actively developing libjson and helping me with my queries in no time.
+Special thanks to Jonathan Wallace, for actively developing libjson and helping me with my queries.
