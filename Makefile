@@ -22,20 +22,25 @@ SOURCES=main.cpp libs/json-parser/json.c
 all: cajun json_spirit libjson $(SOURCES) $(EXECUTABLE)
 		
 cajun: 
-	if [ ! -d "libs/cajun/cajun" ]; then\
-		unzip libs/cajun/cajun.zip -d libs/cajun;\
+	if [ ! -d "libs/cajun/cajun" ]; then \
+		unzip libs/cajun/cajun.zip -d libs/cajun; \
 	fi
 
 json_spirit:
-	if [ ! -d "libs/json_spirit/json_spirit_v4.05" ]; then\
-		unzip libs/json_spirit/json_spirit_v4_05.zip -d libs/json_spirit;\
+	if [ ! -d "libs/json_spirit/json_spirit_v4.05" ]; then \
+		unzip libs/json_spirit/json_spirit_v4_05.zip -d libs/json_spirit; \
 	fi
+	mkdir -p libs/json_spirit/json_spirit_v4.05/build
+	if [ ! -f "libs/json_spirit/json_spirit_v4.05/build/CMakeCache.txt" ]; then \
+		cd libs/json_spirit/json_spirit_v4.05/build && cmake ..; \
+	fi
+	$(MAKE) -w -C libs/libjson/libjson
 
 libjson:
-	if [ ! -d "libs/libjson/libjson" ]; then\
-		unzip libs/libjson/libjson_7.4.0.zip -d libs/libjson;\
-		make -w -Clibs/libjson/libjson;\
+	if [ ! -d "libs/libjson/libjson" ]; then \
+		unzip libs/libjson/libjson_7.4.0.zip -d libs/libjson; \
 	fi
+	$(MAKE) -w -C libs/json_spirit/json_spirit_v4.05/build
 
 $(EXECUTABLE): $(OBJECTS) 
 		$(CC) $(OBJECTS) $(LDFLAGS) -o $@
