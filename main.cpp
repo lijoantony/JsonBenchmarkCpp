@@ -36,6 +36,8 @@
 #include <json.h>
 #undef json_string
 
+#include <utilities_js.hpp>
+
 
 /*
  * @brief A function to print time duration
@@ -176,6 +178,38 @@ void jsonparserBenchmark(std::string jsonString)
 
     std::cout << std::endl;
 }
+
+/*
+ * @brief function for json_spirit benchmark
+ *
+ * @param jsonString test data as a string
+ * @return none
+ */
+void jsonAveryBenchmark(std::string jsonString)
+{
+    std::istringstream buff(jsonString);
+    timespec time1, time2; 
+    json_spirit::mValue value;
+
+    std::cout << std::setw(25) << "Avery";
+
+    //Parsing the string
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+    Utilities::JS::Node root;
+    Utilities::JS::Node::parse(jsonString.data(), jsonString.data() + jsonString.size(),root);
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+
+    printTimeDiff(time1, time2);
+
+    //Serialize to string
+    std::ostringstream out;
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+    out << root;
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+
+    printTimeDiff(time1, time2);
+    std::cout << std::endl;
+}
 int main()
 {
 
@@ -207,6 +241,7 @@ int main()
     cajunBenchmark(buff);
     jsonspiritBenchmark(buff);
     libjsonBenchmark(buff);
+    jsonAveryBenchmark(buff);
     jsonparserBenchmark(buff);
 
     return 0;

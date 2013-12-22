@@ -9,6 +9,7 @@ Currently supports following libs,
 # "json_spirit":http://www.codeproject.com/KB/recipes/JSON_Spirit.aspx
 # "libjson":http://sourceforge.net/projects/libjson
 # "json-parser":https://github.com/udp/json-parser
+# "AveryWs js":https://github.com/matthewaveryusa/averyws
 
 See my "blog post":http://www.lijoantony.com/?p=5 for details.
 
@@ -27,11 +28,14 @@ Frameworks ranked in the order "libjson":http://sourceforge.net/projects/libjson
 Eg:
 
 bc. $./JsonBenchmarkCpp > results.dat
-$ cat results.dat
+averydb@debian:~/gits/JsonBenchmarkCpp$ cat results.dat  
 #library                 parsing                  writing                  
-cajun                    1660                     114                      
-json_spirit              8854                     499                      
-libjson                  19                       3    
+cajun                    669                      160                      
+json_spirit              14907                    731                      
+libjson                  139                      203                      
+Avery                    35                       55                       
+json_parser              114                      
+
 
 Here the numbers shows time taken by each lib for the particular operation in microseconds.
 libjson is a clear winner among the three.
