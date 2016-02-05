@@ -6,7 +6,7 @@
 # see accompanying file LICENSE.txt
 
 CC=g++
-CFLAGS=-c -std=c++11 -O3 -ffast-math -fexpensive-optimizations -DNDEBUG
+CFLAGS=-c -std=c++11 -O3 -ffast-math -fexpensive-optimizations -DNDEBUG -march=native
 LDFLAGS=libs/libjson/libjson/libjson.a -lrt libs/json_spirit/json_spirit_v4.05/build/json_spirit/libjson_spirit.a
 OBJECTS=$(SOURCES:.cpp=.o)
 INCLUDE=\
@@ -14,7 +14,8 @@ INCLUDE=\
 		-Ilibs/json_spirit/json_spirit_v4.05/json_spirit\
 		-Ilibs/libjson/libjson\
 		-Ilibs/json-parser\
-		-Ilibs/AveryWs
+		-Ilibs/AveryWs\
+		-Ilibs/rapidjson/include
 
 EXECUTABLE=JsonBenchmarkCpp
 
