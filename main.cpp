@@ -38,6 +38,17 @@
 
 #include <utilities_js.hpp>
 
+//rapidjson headers
+#if defined(__SSE4_2__)
+#  define RAPIDJSON_SSE42
+#elif defined(__SSE2__)
+#  define RAPIDJSON_SSE2
+#endif
+#include <rapidjson/document.h>
+#include <rapidjson/writer.h>
+#include <rapidjson/stringbuffer.h>
+
+#define ITERATION 10000
 
 /*
  * @brief A function to print time duration
@@ -74,7 +85,6 @@ void printTimeDiff(timespec start, timespec end)
  */
 void cajunBenchmark(std::string jsonString)
 {
-    std::istringstream buff(jsonString);
     timespec time1, time2; 
     json::Object obj;
 
@@ -82,7 +92,11 @@ void cajunBenchmark(std::string jsonString)
 
     //Parsing the string
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-    json::Reader::Read(obj, buff);
+    for (int i = 0; i < ITERATION; i++) {
+        std::istringstream buff(jsonString);
+        obj.Clear();
+        json::Reader::Read(obj, buff);
+    }
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 
     printTimeDiff(time1, time2);
@@ -90,7 +104,10 @@ void cajunBenchmark(std::string jsonString)
     //Serialize to string
     std::ostringstream out;
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-    json::Writer::Write(obj, out);
+    for (int i = 0; i < ITERATION; i++) {
+        json::Writer::Write(obj, out);
+        out.str("");
+    }
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 
     printTimeDiff(time1, time2);
@@ -113,7 +130,8 @@ void jsonspiritBenchmark(std::string jsonString)
 
     //Parsing the string
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-    json_spirit::read( buff, value );
+    for (int i = 0; i < ITERATION; i++)
+        json_spirit::read( buff, value );
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 
     printTimeDiff(time1, time2);
@@ -121,7 +139,10 @@ void jsonspiritBenchmark(std::string jsonString)
     //Serialize to string
     std::ostringstream out;
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-    json_spirit::write(value, out);
+    for (int i = 0; i < ITERATION; i++) {
+        json_spirit::write(value, out);
+        out.str("");
+    }
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 
     printTimeDiff(time1, time2);
@@ -140,8 +161,10 @@ void libjsonBenchmark(std::string jsonString)
     std::cout << std::setw(25) << "libjson";
 
     //Parsing the string
+    JSONNode n;
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-    JSONNode n = libjson::parse(jsonString);
+    for (int i = 0; i < ITERATION; i++)
+        n = libjson::parse(jsonString);
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 
     printTimeDiff(time1, time2);
@@ -149,7 +172,8 @@ void libjsonBenchmark(std::string jsonString)
     //Serialize to string
     std::string out;
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-    out = n.write();
+    for (int i = 0; i < ITERATION; i++)
+        out = n.write();
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 
     printTimeDiff(time1, time2);
@@ -171,7 +195,10 @@ void jsonparserBenchmark(std::string jsonString)
 
     //Parsing the string
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-    value = json_parse(jsonString.c_str());
+    for (int i = 0; i < ITERATION; i++) {
+        value = json_parse(jsonString.c_str());
+        json_value_free(value);
+    }
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 
     printTimeDiff(time1, time2);
@@ -196,7 +223,8 @@ void jsonAveryBenchmark(std::string jsonString)
     //Parsing the string
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
     Utilities::JS::Node root;
-    Utilities::JS::Node::parse(jsonString.data(), jsonString.data() + jsonString.size(),root);
+    for (int i = 0; i < ITERATION; i++)
+        Utilities::JS::Node::parse(jsonString.data(), jsonString.data() + jsonString.size(),root);
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 
     printTimeDiff(time1, time2);
@@ -204,12 +232,52 @@ void jsonAveryBenchmark(std::string jsonString)
     //Serialize to string
     std::ostringstream out;
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
-    out << root;
+    for (int i = 0; i < ITERATION; i++) {
+        out << root;
+        out.str("");
+    }
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
 
     printTimeDiff(time1, time2);
     std::cout << std::endl;
 }
+
+/*
+ * @brief function for RapidJSON benchmark
+ *
+ * @param jsonString test data as a string
+ * @return none
+ */
+void rapidjsonBenchmark(std::string jsonString)
+{
+    timespec time1, time2; 
+    using namespace rapidjson;
+    Document d;
+
+    std::cout << std::setw(25) << "RapidJSON";
+
+    //Parsing the string
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+    for (int i = 0; i < ITERATION; i++)
+        d.Parse(jsonString.data());
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+
+    printTimeDiff(time1, time2);
+
+    //Serialize to string
+    StringBuffer sb;
+    Writer<StringBuffer> writer(sb);
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time1);
+    for (int i = 0; i < ITERATION; i++) {
+        sb.Clear();
+        d.Accept(writer);
+    }
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &time2);
+
+    printTimeDiff(time1, time2);
+    std::cout << std::endl;
+}
+
 int main()
 {
 
@@ -243,6 +311,7 @@ int main()
     libjsonBenchmark(buff);
     jsonAveryBenchmark(buff);
     jsonparserBenchmark(buff);
+    rapidjsonBenchmark(buff);
 
     return 0;
 }
